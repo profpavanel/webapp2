@@ -72,48 +72,6 @@
         .download-button:hover {
             background-color: var(--green-dark);
         }
-
-        .pdf-input-section {
-            margin-top: 30px;
-            border-top: 2px solid var(--green-light);
-            padding-top: 20px;
-        }
-
-        .pdf-input-section h2 {
-            color: var(--green-dark);
-        }
-
-        .pdf-upload-group {
-            margin-bottom: 15px;
-        }
-
-        .pdf-upload-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-
-        .file-input-wrapper {
-            display: flex;
-            align-items: center;
-        }
-
-        .file-input {
-            flex-grow: 1;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        .file-name {
-            margin-left: 10px;
-            font-style: italic;
-            color: #555;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 200px;
-        }
     </style>
 </head>
 <body>
@@ -122,111 +80,31 @@
     <h1>📝 WebApp Uscite Didattiche</h1>
     <p>Benvenuto nell'area download per i moduli necessari all'organizzazione delle uscite didattiche. Scarica i file cliccando sul pulsante dedicato per ogni modulo.</p>
 
-    <div id="modules-container">
-        </div>
-
-    <hr>
-
-    <div class="pdf-input-section">
-        <h2>🛠️ Carica nuovi PDF</h2>
-        <p>Utilizza questa sezione per caricare i file PDF che i docenti potranno scaricare. I link verranno aggiornati automaticamente.</p>
-        
-        <div class="pdf-upload-group">
-            <label for="autorizzazione-uscita-input">Autorizzazione per organizzare l'uscita:</label>
-            <div class="file-input-wrapper">
-                <input type="file" id="autorizzazione-uscita-input" class="file-input" accept=".pdf">
-                <span class="file-name" id="autorizzazione-uscita-name">Nessun file selezionato</span>
-            </div>
-        </div>
-
-        <div class="pdf-upload-group">
-            <label for="autorizzazione-genitori-input">Autorizzazioni dei genitori:</label>
-            <div class="file-input-wrapper">
-                <input type="file" id="autorizzazione-genitori-input" class="file-input" accept=".pdf">
-                <span class="file-name" id="autorizzazione-genitori-name">Nessun file selezionato</span>
-            </div>
-        </div>
-
-        <div class="pdf-upload-group">
-            <label for="modulo-pagamento-input">Modulo di pagamento:</label>
-            <div class="file-input-wrapper">
-                <input type="file" id="modulo-pagamento-input" class="file-input" accept=".pdf">
-                <span class="file-name" id="modulo-pagamento-name">Nessun file selezionato</span>
-            </div>
-        </div>
+    <div class="module">
+        <h2>Autorizzazione per organizzare l'uscita</h2>
+        <p>Questo modulo deve essere compilato dal docente per richiedere l'autorizzazione all'organizzazione di un'uscita didattica.</p>
+        <a href="autorizzazione-uscita.pdf" class="download-button" target="_blank" download>
+            Scarica il PDF
+        </a>
     </div>
+
+    <div class="module">
+        <h2>Autorizzazioni dei genitori</h2>
+        <p>Modulo da far firmare ai genitori per autorizzare la partecipazione dei propri figli all'uscita.</p>
+        <a href="autorizzazioni-genitori.pdf" class="download-button" target="_blank" download>
+            Scarica il PDF
+        </a>
+    </div>
+
+    <div class="module">
+        <h2>Modulo di pagamento</h2>
+        <p>Modello per la gestione dei pagamenti relativi all'uscita didattica.</p>
+        <a href="modulo-pagamento.pdf" class="download-button" target="_blank" download>
+            Scarica il PDF
+        </a>
+    </div>
+
 </div>
-
-<script>
-    const modules = [
-        {
-            id: 'autorizzazione-uscita',
-            title: "Autorizzazione per organizzare l'uscita",
-            description: "Questo modulo deve essere compilato dal docente per richiedere l'autorizzazione all'organizzazione di un'uscita didattica.",
-            placeholderUrl: '#'
-        },
-        {
-            id: 'autorizzazione-genitori',
-            title: "Autorizzazioni dei genitori",
-            description: "Modulo da far firmare ai genitori per autorizzare la partecipazione dei propri figli all'uscita.",
-            placeholderUrl: '#'
-        },
-        {
-            id: 'modulo-pagamento',
-            title: "Modulo di pagamento",
-            description: "Modello per la gestione dei pagamenti relativi all'uscita didattica.",
-            placeholderUrl: '#'
-        }
-    ];
-
-    const modulesContainer = document.getElementById('modules-container');
-
-    function renderModules() {
-        modulesContainer.innerHTML = ''; // Svuota il contenitore prima di renderizzare
-        modules.forEach(module => {
-            const moduleDiv = document.createElement('div');
-            moduleDiv.className = 'module';
-            moduleDiv.innerHTML = `
-                <h2>${module.title}</h2>
-                <p>${module.description}</p>
-                <a href="${module.url || module.placeholderUrl}" class="download-button" target="_blank" download>
-                    Scarica il PDF
-                </a>
-            `;
-            modulesContainer.appendChild(moduleDiv);
-        });
-    }
-
-    const inputAutorizzazioneUscita = document.getElementById('autorizzazione-uscita-input');
-    const inputAutorizzazioneGenitori = document.getElementById('autorizzazione-genitori-input');
-    const inputModuloPagamento = document.getElementById('modulo-pagamento-input');
-
-    const nameAutorizzazioneUscita = document.getElementById('autorizzazione-uscita-name');
-    const nameAutorizzazioneGenitori = document.getElementById('autorizzazione-genitori-name');
-    const nameModuloPagamento = document.getElementById('modulo-pagamento-name');
-
-    const handleFileChange = (event, moduleId, nameElement) => {
-        const file = event.target.files[0];
-        if (file) {
-            nameElement.textContent = file.name;
-            const fileURL = URL.createObjectURL(file);
-            const moduleIndex = modules.findIndex(m => m.id === moduleId);
-            if (moduleIndex !== -1) {
-                modules[moduleIndex].url = fileURL;
-                renderModules();
-            }
-        } else {
-            nameElement.textContent = 'Nessun file selezionato';
-        }
-    };
-
-    inputAutorizzazioneUscita.addEventListener('change', (e) => handleFileChange(e, 'autorizzazione-uscita', nameAutorizzazioneUscita));
-    inputAutorizzazioneGenitori.addEventListener('change', (e) => handleFileChange(e, 'autorizzazione-genitori', nameAutorizzazioneGenitori));
-    inputModuloPagamento.addEventListener('change', (e) => handleFileChange(e, 'modulo-pagamento', nameModuloPagamento));
-
-    // Renderizza i moduli iniziali
-    renderModules();
-</script>
 
 </body>
 </html>
